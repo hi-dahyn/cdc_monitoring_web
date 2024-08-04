@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<title>Device Registration Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
+  <title>Device Information</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  
+  <script>
+    async function sendGetMac() {
+    const websocket = new WebSocket('ws://localhost:3000');
+    websocket.onopen = () => {
+        websocket.send('signupmac');
+    };
+
+    websocket.onmessage = (event) => {
+        document.getElementsByName('devicetype')[0].value = event.data;
+    };
+
+    websocket.onerror = (error) => {
+        console.log('WebSocket Error: ', error);
+    };
+
+    websocket.onclose = () => {
+        console.log('WebSocket connection closed');
+    };
+}
+</script>
+
+</head>
+
+<body>
+
+<form action="/userhome/mypage/device" method="post" class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
+<h2 class="w3-center">Device Registration</h2>
+
+<div class="w3-row w3-section">
+  <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
+    <div class="w3-rest">
+      <input class="w3-input w3-border" name="devicename" type="text" placeholder="기기이름" required>
+    </div>
+</div>
+
+<div class="w3-row w3-section">
+  <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-laptop"></i></div>
+  <div class="w3-rest">
+    <input class="w3-input w3-border" name="devicetype" type="text" placeholder="기기 타입" required >
+  </div>
+</div>
+
+
+<p class="w3-center">
+    <div class="w3-row w3-section">
+        <div class="w3-center">
+          <button class="w3-button w3-section w3-blue w3-ripple" type="submit">기기등록하기</button>
+        </div>
+    </div>
+      
+    <div class="w3-row w3-section">
+        <div class="w3-center">
+          <button class="w3-button w3-section w3-blue w3-ripple" onclick="sendGetMac()" >기기정보 불러오기</button>
+        </div>
+    </div>
+</p>
+</form>
+
+</body>
+</html>
